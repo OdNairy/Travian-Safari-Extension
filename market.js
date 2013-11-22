@@ -14,10 +14,18 @@ function market_main () {
 	};
 
 	function send_resources_main () {
+        resTb = document.getElementById("send_select")
+        if (resTb.rows.length > 4) {
+                resTb.  rows[4].style.display = "none";
+        }
+        if (resTb.rows.length > 5) {
+            resTb.rows[5].style.display = "none";
+        }
+
 		var merchant_max_capacity = parseInt(document.querySelector("div[class='carry'] b").textContent);
 
 		var aQcarry = [100, 500, 1000, merchant_max_capacity]
-		resTb = document.getElementById("send_select")
+		
 
 		var aRow, aCell;
 		for (var i = 0; i < 4; i++) {
