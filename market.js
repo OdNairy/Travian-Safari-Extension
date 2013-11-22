@@ -55,7 +55,7 @@ function market_main() {
             imgNode = div.removeChild(div.firstChild);
             tool.appendChild(imgNode)
             aRow.appendChild($td(attrInject$, tool))
-            // tool.addEventListener("click",onClick,false)
+            tool.addEventListener("click",bind(onClearTransportRes, [i]),false)
             uiAddQCarryCells(aRow, i, aQcarry)
 
             aTool = null;
@@ -82,8 +82,12 @@ function market_main() {
             ['id', 'tb_merc_summary'],
             ['colspan', clAllRow.cells.length]
         ])));
-        alert("done")
+//        alert("done")
 
+    }
+
+    function onClearTransportRes(ri) {
+        document.querySelector("#r"+(ri+1)).value = 0;
     }
 
     function uiAddQCarryCells(aRow, ri, aQcarry) {
@@ -97,8 +101,21 @@ function market_main() {
     }
 
     function onClickUseThemAllPr() {
-        var resourcesState = self.getResourcesState();
-        self.distributeTransportsProportional(resourcesState.Res, resourcesState.Rest);
+        var resourcesState = getResourcesState();
+        var S = resourcesState[0]+resourcesState[1]+resourcesState[2]+resourcesState[3];
+        var merchant_number = parseInt10(document.querySelector("span.merchantsAvailable").textContent);
+        var merchant_capacity = parseInt10(document.querySelector("div.carry b").textContent);
+        var maximum = merchant_capacity * merchant_number;
+
+        var resources = [0,0,0,0]
+        for (var i = 0; i< 4; i++) {
+
+            resources[i] = Math.floor(maximum*(resourcesState[i]/S));
+            document.querySelector("input#r"+(i+1)).value = resources[i];
+        }
+
+
+//        distributeTransportsProportional(resourcesState.Res, resourcesState.Rest);
     }
 
     function onClickUseThemAll1H() {
@@ -111,10 +128,12 @@ function market_main() {
     }
 
     function onClearAllTransports(considerUseThem) {
+        console.log("considerUseThem: "+considerUseThem);
         var ri;
         for (ri = 0; ri < 4; ri++) {
-            if (!considerUseThem || (considerUseThem && self.aUTR[ri])) {
-                self.setTransportRes(ri, '');
+            checkbox = document.querySelector("#tbInject_checkbox_r"+(ri+1));
+            if (!considerUseThem || (considerUseThem && checkbox.checked)) {
+                document.querySelector("input#r" + (ri + 1)).value = 0;
             }
         }
     }
