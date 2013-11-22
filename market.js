@@ -39,6 +39,7 @@ function market_main() {
                 ['type', 'checkbox'],
                 ['title', T('USERES_TT', T('RES1'))]
             ]);
+            aCheck.id = 'tbInject_checkbox_r'+(i+1);
             aCheck.checked = true
 
             aCell.appendChild(aCheck)
@@ -188,8 +189,9 @@ function onQCarry(ri, add_value) {
         document.querySelector('input#r'+(ri+1)).value = value;
     } else {
         for (ri = 0; ri < 4; ++ri) {
-            if (self.aUTR[ri]) {
-                self.setNewTransport(ri, add_value, resAvail, r_trasp);
+            checkbox = document.querySelector("#tbInject_checkbox_r"+(ri+1));
+            if (checkbox.checked) {
+                onQCarry(ri,add_value);
             }
         }
     }
