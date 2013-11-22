@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Hello World</title>
+<script type="text/javascript" src="travian.js"></script>
+<script type="text/javascript">
+	function performCommand (event) {
+		if (event.command === "doTheHello") {
+			test();
+			safari.application.activeBrowserWindow.activeTab.page.dispatchMessage('test', 'test');
+			// village_links();
+			
+
+		};
+	}
+
+	function validateCommand (event) {
+		if (event.command === "doTheHello") {
+			event.target.disabled = !event.target.browserWindow.activeTab.url;
+		};
+	}
+	safari.application.addEventListener("command",performCommand, true);
+	safari.application.addEventListener("validate",validateCommand,true);
+
+</script>
+
+</head>
+<body>
+This is extension body.
+</body>
+</html>
