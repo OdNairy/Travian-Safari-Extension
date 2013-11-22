@@ -44,10 +44,12 @@
 		<dict>
 			<key>End</key>
 			<array>
+                <string>images.js</string>
+                <string>variables.js</string>
+				<string>market.js</string>
 				<string>travian.js</string>
 				<string>Lab.js</string>
 				<string>travianCore.js</string>
-				<string>market.js</string>
 				<string>jquery-2.0.3.js</string>
 			</array>
 		</dict>

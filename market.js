@@ -1,43 +1,48 @@
 attrInject$ = ['class', 'tbInject'];
 var jsVoid = 'javaScript:void(0)';
 
-function test () {
-            alert("This is test!")
+function test() {
+    alert("This is test!")
 }
 
-function market_main () {
-	console.log("market main")
-	var send_resources_tab = document.querySelectorAll("div.contentNavi div.container")[1].classList.contains("active")
+function market_main() {
+    console.log("market main")
+    var send_resources_tab = document.querySelectorAll("div.contentNavi div.container")[1].classList.contains("active")
 
-	if (send_resources_tab) {
-		send_resources_main();
-	};
+    if (send_resources_tab) {
+        send_resources_main();
+    }
+    ;
 
-	function send_resources_main () {
+    function send_resources_main() {
         resTb = document.getElementById("send_select")
         if (resTb.rows.length > 4) {
-                resTb.  rows[4].style.display = "none";
+            resTb.rows[4].style.display = "none";
         }
         if (resTb.rows.length > 5) {
             resTb.rows[5].style.display = "none";
         }
 
-		var merchant_max_capacity = parseInt(document.querySelector("div[class='carry'] b").textContent);
+        var merchant_max_capacity = parseInt(document.querySelector("div[class='carry'] b").textContent);
 
-		var aQcarry = [100, 500, 1000, merchant_max_capacity]
-		
+        var aQcarry = [100, 500, 1000, merchant_max_capacity]
 
-		var aRow, aCell;
-		for (var i = 0; i < 4; i++) {
-			aRow = resTb.rows[i]
-			aRow.cells[3].style.display = 'none'	// hide merchant capacity button like '1500'
-			aCell = $td([['class', 'tbInject tbUseThem']]); 
-			aCheck = $i([['type', 'checkbox'],['title', T('USERES_TT', T('RES1'))]]);
-			aCheck.checked = true
 
-			aCell.appendChild(aCheck)
-			aRow.appendChild(aCell)
+        var aRow, aCell;
+        for (var i = 0; i < 4; i++) {
+            aRow = resTb.rows[i]
+            aRow.cells[3].style.display = 'none'	// hide merchant capacity button like '1500'
+            aCell = $td([
+                ['class', 'tbInject tbUseThem']
+            ]);
+            aCheck = $i([
+                ['type', 'checkbox'],
+                ['title', T('USERES_TT', T('RES1'))]
+            ]);
+            aCheck.checked = true
 
+            aCell.appendChild(aCheck)
+            aRow.appendChild(aCell)
 
 
             var tool = $lnk([
@@ -46,16 +51,16 @@ function market_main () {
             ]);
 
             var div = $e("div", "<img class=\"del\" src=\"img/x.gif\" title=\"Delete\" alt=\"Delete\">");
-            imgNode = div.removeChild(div.firstChild); 
+            imgNode = div.removeChild(div.firstChild);
             tool.appendChild(imgNode)
             aRow.appendChild($td(attrInject$, tool))
             // tool.addEventListener("click",onClick,false)
-			uiAddQCarryCells(aRow, i, aQcarry)
+            uiAddQCarryCells(aRow, i, aQcarry)
 
             aTool = null;
             if (i === 0) {
-                aTool = uiCreateTool("usethempr", T('USETHEMPR'), onClickUseThemAllPr); 
-            }else if (i === 1) {
+                aTool = uiCreateTool("usethempr", T('USETHEMPR'), onClickUseThemAllPr);
+            } else if (i === 1) {
                 aTool = uiCreateTool("usethemeq", T('USETHEMEQ'), onClickUseThemAllEq);
             } else if (i === 2) {
                 aTool = uiCreateTool("usethem1h", T('USETHEM1H'), onClickUseThemAll1H);
@@ -64,11 +69,12 @@ function market_main () {
             aRow.appendChild($td([
                 ['class', 'tbInject tbTool']
             ], aTool));
-		};
+        }
+        ;
 
 
         var clAllRow = $r(attrInject$, [$td(attrInject$, I("r0")), (aRow.cells.length === 12) ? $td(attrInject$) : null, $td(attrInject$, uiCreateTool("bDel", T('MTCL'), bind(onClearAllTransports, [false]))), $td(attrInject$), $td(attrInject$, uiCreateTool("del", null, bind(onClearAllTransports, [true])))]);
-        uiAddQCarryCells(clAllRow, 4, aQcarry); 
+        uiAddQCarryCells(clAllRow, 4, aQcarry);
         clAllRow.appendChild($td(attrInject$));
         resTb.appendChild(clAllRow);
         resTb.appendChild($r(attrInject$, $td([
@@ -76,18 +82,18 @@ function market_main () {
             ['colspan', clAllRow.cells.length]
         ])));
         alert("done")
-        
-	}
 
-	function uiAddQCarryCells(aRow, ri, aQcarry) {
-		var j, aLink;
-		for (j = 0; j < aQcarry.length; j++) {
-			aLink = $action(['class', 'tbQCarry' + (aQcarry[j] === self.mCap ? " tbMCap" : "")], '&nbsp;' + aQcarry[j], bind(onQCarry, [ri, aQcarry[j]]));
-			aRow.appendChild($td(attrInject$, aLink));
-		}
-		aLink = $action(['class', 'tbQCarry'], '&nbsp;' + T('All'), bind(onQCarry, [ri]));
-		aRow.appendChild($td(attrInject$, aLink));
-	} 
+    }
+
+    function uiAddQCarryCells(aRow, ri, aQcarry) {
+        var j, aLink;
+        for (j = 0; j < aQcarry.length; j++) {
+            aLink = $action(['class', 'tbQCarry' + (aQcarry[j] === self.mCap ? " tbMCap" : "")], '&nbsp;' + aQcarry[j], bind(onQCarry, [ri, aQcarry[j]]));
+            aRow.appendChild($td(attrInject$, aLink));
+        }
+        aLink = $action(['class', 'tbQCarry'], '&nbsp;' + T('All'), bind(onQCarry, [ri]));
+        aRow.appendChild($td(attrInject$, aLink));
+    }
 
     function onClickUseThemAllPr() {
         var resourcesState = self.getResourcesState();
@@ -111,94 +117,135 @@ function market_main () {
             }
         }
     }
+
+
 }
 
+function getCurrentTransports() {
+    var rxVal = [0, 0, 0, 0];
+    for (var i = 0; i < rxVal.length; i++) {
+        rxVal[i] = document.querySelector("input#r" + (i + 1)).value.length;
+        if (rxVal[i] > 0) {
+            rxVal[i] = parseInt(document.querySelector("input#r" + (i + 1)).value)
+        }
+        ;
+    }
+    ;
+    return rxVal;
+}
 
+function getResourcesState() {
+    var resources = [0, 0, 0, 0]
+    for (var i = 0; i < resources.length; i++) {
+        resources[i] = parseInt10(document.querySelector("#l" + (i + 1)).textContent)
+    }
+    ;
+    return resources;
+}
+
+function getMaximumValues() {
+    var warehouse = [0, 0, 0, 0]
+    warehouse[0] = warehouse[1] = warehouse[2] = parseInt10(document.querySelector("#stockBarWarehouse").textContent)
+    warehouse[3] = parseInt10(document.querySelector("#stockBarGranary").textContent)
+    return warehouse;
+}
 
 
 // TODO: check if market url
 // if (document.getElementById("send_select")) {
-	
+
 // 	// market_main();
 // };
-
 
 
 //-------------------------------    		HELPERS 	FUNCTIONS -----------------------
 
 
-
 // TODO: translation function
-function T (name) {
-	return name;
+function T(name) {
+    return name;
 }
 
 
 function onQCarry(ri, q) {
-            var rxVal = self.getCurrentTransports();
-            var resAvail = self.getResourcesState().Res;
-            if (ri < 4) {
+    var rxVal = self.getCurrentTransports();
+    var resAvail = self.getResourcesState();
+    var maximumInStock = self.getMaximumValues();
+
+    if (ri < 4) {
+        var value = rxVal[ri];
+        if (rxVal[ri]) {
+        } else {
+        }
+        ;
+
+        if (rxVal[ri] + q < maximumInStock[ri]) {
+            value += q;
+        } else {
+
+        }
+
+        self.setNewTransport(ri, q, resAvail, rxVal);
+    } else {
+        for (ri = 0; ri < 4; ++ri) {
+            if (self.aUTR[ri]) {
                 self.setNewTransport(ri, q, resAvail, rxVal);
-            } else {
-                for (ri = 0; ri < 4; ++ri) {
-                    if (self.aUTR[ri]) {
-                        self.setNewTransport(ri, q, resAvail, rxVal);
-                    }
-                }
             }
         }
+    }
+}
 
 
 function addChildren(node, children) {
-        if (children) {
-            if (__isLikeToArray(children)) {
-                var i;
-                for (i = 0; i < children.length; i++) {
-                    addChildren(node, children[i]);
-                }
-            } else {
-                node.appendChild(__getDOMNode(children));
+    if (children) {
+        if (__isLikeToArray(children)) {
+            var i;
+            for (i = 0; i < children.length; i++) {
+                addChildren(node, children[i]);
             }
+        } else {
+            node.appendChild(__getDOMNode(children));
         }
+    }
 }
 
 function isDOMNode(node) {
-        return typeof (node) === "object" && typeof (node.nodeType) === "number" && typeof (node.nodeName) === "string" && typeof (node.tagName) === "string";
-    };
+    return typeof (node) === "object" && typeof (node.nodeType) === "number" && typeof (node.nodeName) === "string" && typeof (node.tagName) === "string";
+};
 
-    function __getDOMNode(node) {
-        if (typeof node === "string" || typeof node === "number") {
-            node = document.createTextNode(node);
-        }
-        return node;
+function __getDOMNode(node) {
+    if (typeof node === "string" || typeof node === "number") {
+        node = document.createTextNode(node);
     }
+    return node;
+}
 
-    function __isLikeToArray(o) {
-        return (o instanceof Array || (typeof o === "object" && 'length' in o && !isDOMNode(o)));
-    }
+function __isLikeToArray(o) {
+    return (o instanceof Array || (typeof o === "object" && 'length' in o && !isDOMNode(o)));
+}
 
 
 function bind(f, boundArgs) {
-        return function () {
-            return f.apply(this, boundArgs);
-        };
+    return function () {
+        return f.apply(this, boundArgs);
+    };
 }
 
 function $e(aType, attributes, content) {
-        var node = document.createElement(aType);
-        if (!(attributes instanceof Array) && !(attributes === null || attributes === undefined)) {
-            content = attributes;
-            attributes = null;
+    var node = document.createElement(aType);
+    if (!(attributes instanceof Array) && !(attributes === null || attributes === undefined)) {
+        content = attributes;
+        attributes = null;
+    }
+    $at(node, attributes);
+    if (content !== null && content !== undefined) {
+        if (typeof content === "object") {
+            addChildren(node, content);
+        } else if (content !== "") {
+            node.innerHTML = content;
         }
-        $at(node, attributes);
-        if (content !== null && content !== undefined) {
-            if (typeof content === "object") {
-                addChildren(node, content);
-            } else if (content !== "") {
-                node.innerHTML = content;
-            }
-        }
-        return node;
+    }
+    return node;
 }
 
 
@@ -337,7 +384,8 @@ gIc["att2"] = '<img class="att2" src="' + xGIF + '">';
 
 var imP = 'data:image/gif;base64,';
 var imPNG = 'data:image/png;base64,';
-var image = {
+
+window.image = {
     'addbmspacer': imP + 'R0lGODlhEwAQAOZrAP/+/f/8+vZrAPumZP/59f/7+P/JmP+SMf57B/x0APhuAPmAIf7r3fuiWvlvAP/69f/Gkvy0ef/BivqCIv727/+rYf/Ej/3ZvP/Ci/2qZ/dyDPdxCPqRPvumYv56CP/s3f6RMvytbPulYv58DP/t3f95AfqmZ/+JIP/9/Py8iv6nWv2NLvp+F/mIL/+EFvmKMv/hxv+aQPuxeP+uZ/VrBPqtcf/Sqv/GlPyqaP/69v+oWvhxB/uyef/Aiv/48//17f61ePxzAP/p1f/27/mrcf2QMf+MJv/27v7s3f57CP+LJPqpbf/Ytv/48vdtBP/9+/dsAPhyB/3Kov/79//59P/Wsv+CFP7n1f3YvPqILv/t3Pd4F//ewf3l0/+fSPyUPvt5DP/VsP/48f2pYv6vbfhzCP2HIf+IH/+mVv717f+wa////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAGsALAAAAAATABAAAAengGtrDwYSgoeIYTZihwU3RVSIkjkzFk1rAEwuPpKdDxUYAUdeIZ2mBgcfECMXpp0wVjhKWVcorodPQisLHiKYt4hjGwgNaydnQUBVMSUJJGhGCV9rKjvEaw4KAjJSDlACDBPaHGs6UUkdwJJqZWYtXeqCWgcLGRpY8WtcYCZINEv5yDhhEKDGFgLqprAgEmDNkAEvEAIwVQDEAAqHfvBIcatHhDSCAgEAOw==',
     'addbmthispage': imP + 'R0lGODlhFwAQAOZ/AP/69v+rQ/l8GPV+AfaEMf/RlfqKL/2qDP3Zvf/Kmv6SMvuuI/738f/x5v/kzf/m0vacBP/48v/PgPlxBfumZf/v4f717fu7i/dxCv/27//HlP/BivWRAv/GZv/59faEA/mscf/8+vmlCP16CfyMBf+1MvzHnv/BW/ZsBP/Fkf6ubf/Ytf+DFfulYvuzef26RP7n1fypZv///v/s3f7q2fqhWv/9/P57B//Sqv+zb/mAIf/fwv/69f/+/f+6ff7dwv6mWv2HIf6zLP/VsPvLqP+sYv/Oif2taf+fSfZ/JvigBvR4APicWPqpGf+LJP6/VPuWB//UpPmna//coP/frP/79/mvef7r3feNQPSMAf/juPy3gPhzCPeTSfyWQv+aQPyhL/7z6vmeDPvBl/qpbfusbviECf2qaPeiEvqmH/2pYv/AdP/o1f+uZ/6jNP+oWv+zXP/hx/zRsfuTHP7Xtf/Ylv/Lc//Ej//NoP/Ibf+/eft5DP58DPq4h/+9gv///yH5BAEAAH8ALAAAAAAXABAAAAf/gH9/PAkbgocAFRmHgkM4EYdVGgqQjBU+OIx/AG13kD0rLJWMO3pHNpo8RRshGUgqmn8NGkYCP7EJCjMafAiHMiFVO1F1YDEVHj2HcSxnTgYwIQ8PDjsreFp1JyNfPikadCFsBjojLX8efgFwawVUUxIdTwFuc2ZlkGoYNzWCHlsT0rzIY6fDiRcL0HwAwUAQkAn8EPVBIWZBiRJCmkAYYKWhoDdcbpxD5ILEgZMHlHyQ4lFQDi5BDDxglMCkiJtKBlywpEDHGQy+BFXJAUUEhwEcIGRhEubQjj0UZqAgc6iBl41YxnRZwoEAjUMqUFwJAUKAB0EOMCQhYuFPBjkEKZbc+lNFAIgQbikYOEvDRANNFkzAoKuAwiJBFlzs/IMqlg1lG1y0/RMIADs=',
     'addbookmark': imP + 'R0lGODlhEAAQAOZ/APV+AfaRA/748/qdVfvKpvl0CvV6APunC/54AvZ8JP/7+P/t3f/9/P/49PijB/2rDv/59P3Dk/7z6v/ewP/HaPeBAvx7DP/u4P62OPzBVv+xSfidBv3o2f/Kc/eQRf/z6fyiM//cr/7q2fSPAfuwKvzQsP/FYvuLBf2uDv+xa//69fuLDv++T//9+/V1Fv+4cP25QvR2APmwJv/VkPSDAPWgAvyqDf/Kmv67RvecBf/lzf/w4v/KcfRpAf/37/iPQf/MlPaEBv/Vp//dpP/gxPipB/q0gP/YtfvJo/eiDvzLpf/isf/Nof/XsvzUtv/IbP+mRP2pEf6sE/+vF/iaVfyfUv+TJf+vGPqoGP/17P717v/VmPusbvmLNPytbv2safaCLf+9dfuZJPhvAf+jU/+mV//DXP/RhvWUAv/Xk/WBAP/38vehBvmmCf2pDvV5H//Lnf/8+fy6RP2XP//+/fafBP7AV//lz/+ybf+/U/++Uf7CWPx9CvRpBP/27v///yH5BAEAAH8ALAAAAAAQABAAAAezgH+Cg39ZO4SIiE0piY0QeAgijYgTYSBck4MKEVsZBReIDAo+C3dHQkMUYnM3RAt+cUxlZC9AIUtpT3saUFZ8BV4qVSswHTNnPCZmdnIyQT9afwwDFVgYLHl6OCRJAD8Ngy0DYwdSU1dRGz0e4IQfFm4PNg8HOX0ciToIKG1sDg51YjhJBOdEETQGDASoQcNIoi8B1CQgUAIMgBFUEnVxEUGAIAVI3iSgQ0iBEgmJ1hBoFwgAOw==',
@@ -409,51 +457,49 @@ var image = {
     'vmkls': imPNG + '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',
 };
 
-
-
 function uiCreateTool(imgTag, tooltip, onClick) {
-        var tool = $lnk([
-            ['class', 'tbTool'],
-            ['href', jsVoid]
-        ]);
-        var attr = null;
-        if (tooltip) {
-            attr = [
-                ['title', tooltip]
-            ];
-        }
-        tool.appendChild(I(imgTag, attr));
-        if (onClick) {
-            tool.addEventListener("click", onClick, false);
-        }
-        return tool;
+    var tool = $lnk([
+        ['class', 'tbTool'],
+        ['href', jsVoid]
+    ]);
+    var attr = null;
+    if (tooltip) {
+        attr = [
+            ['title', tooltip]
+        ];
     }
+    tool.appendChild(I(imgTag, attr));
+    if (onClick) {
+        tool.addEventListener("click", onClick, false);
+    }
+    return tool;
+}
 
-    function I(name, attr) {
-        var pre_att;
-        var imgNode = null;
-        if (I.images_attributes) {
-            pre_att = I.images_attributes[name];
-        }
-        if (!pre_att) {
-            var imgHTML = gIc[name];
-            if (imgHTML) {
-                var div = $e("div", imgHTML);
-                imgNode = div.removeChild(div.firstChild);
-                $at(imgNode, attr);
+function I(name, attr) {
+    var pre_att;
+    var imgNode = null;
+    if (I.images_attributes) {
+        pre_att = I.images_attributes[name];
+    }
+    if (!pre_att) {
+        var imgHTML = gIc[name];
+        if (imgHTML) {
+            var div = $e("div", imgHTML);
+            imgNode = div.removeChild(div.firstChild);
+            $at(imgNode, attr);
+        } else {
+            var src = image[name];
+            if (src) {
+                pre_att = [
+                    ['src', src]
+                ];
             } else {
-                var src = image[name];
-                if (src) {
-                    pre_att = [
-                        ['src', src]
-                    ];
-                } else {
-                    pre_att = [
-                        ['class', name],
-                        ['src', xGIF]
-                    ];
-                }
+                pre_att = [
+                    ['class', name],
+                    ['src', xGIF]
+                ];
             }
         }
-        return imgNode ? imgNode : $img(pre_att.concat(attr));
     }
+    return imgNode ? imgNode : $img(pre_att.concat(attr));
+}
