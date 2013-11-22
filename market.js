@@ -59,9 +59,15 @@ function market_main () {
 		};
 
 
-        // var clAllRow = $r(attrInject$, [$td(attrInject$, I("r0")), (aRow.cells.length === 12) ? $td(attrInject$) : null, $td(attrInject$, uiCreateTool("bDel", T('MTCL'), bind(onClearAllTransports, [false]))), $td(attrInject$), $td(attrInject$, uiCreateTool("del", null, bind(onClearAllTransports, [true])))]);
-        // uiAddQCarryCells(clAllRow, 4, aQcarry); 
-        // alert("done")
+        var clAllRow = $r(attrInject$, [$td(attrInject$, I("r0")), (aRow.cells.length === 12) ? $td(attrInject$) : null, $td(attrInject$, uiCreateTool("bDel", T('MTCL'), bind(onClearAllTransports, [false]))), $td(attrInject$), $td(attrInject$, uiCreateTool("del", null, bind(onClearAllTransports, [true])))]);
+        uiAddQCarryCells(clAllRow, 4, aQcarry); 
+        clAllRow.appendChild($td(attrInject$));
+        resTb.appendChild(clAllRow);
+        resTb.appendChild($r(attrInject$, $td([
+            ['id', 'tb_merc_summary'],
+            ['colspan', clAllRow.cells.length]
+        ])));
+        alert("done")
         
 	}
 
@@ -87,6 +93,15 @@ function market_main () {
 
     function onClickUseThemAllEq() {
         self.distributeTransportsEqual(self.getResourcesState().Res);
+    }
+
+    function onClearAllTransports(considerUseThem) {
+        var ri;
+        for (ri = 0; ri < 4; ri++) {
+            if (!considerUseThem || (considerUseThem && self.aUTR[ri])) {
+                self.setTransportRes(ri, '');
+            }
+        }
     }
 }
 
