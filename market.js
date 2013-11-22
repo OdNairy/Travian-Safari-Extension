@@ -167,29 +167,29 @@ function T(name) {
 }
 
 
-function onQCarry(ri, q) {
-    var rxVal = self.getCurrentTransports();
-    var resAvail = self.getResourcesState();
-    var maximumInStock = self.getMaximumValues();
+function onQCarry(ri, add_value) {
+    var r_trasp = getCurrentTransports();
+    var resAvail = getResourcesState();
+    var rmax = getMaximumValues();
 
     if (ri < 4) {
-        var value = rxVal[ri];
-        if (rxVal[ri]) {
+        var value = r_trasp[ri];
+
+        if (r_trasp[ri] + add_value <= resAvail[ri]){
+            if (r_trasp[ri] + add_value <= rmax[ri]) {
+                value += add_value;
+            } else {
+                value = rmax[ri];
+            }
         } else {
-        }
-        ;
-
-        if (rxVal[ri] + q < maximumInStock[ri]) {
-            value += q;
-        } else {
-
+            value = resAvail[ri];
         }
 
-        self.setNewTransport(ri, q, resAvail, rxVal);
+        document.querySelector('input#r'+(ri+1)).value = value;
     } else {
         for (ri = 0; ri < 4; ++ri) {
             if (self.aUTR[ri]) {
-                self.setNewTransport(ri, q, resAvail, rxVal);
+                self.setNewTransport(ri, add_value, resAvail, r_trasp);
             }
         }
     }
